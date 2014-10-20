@@ -55,11 +55,12 @@ public class GenerateData {
 	public static String dateRange(){
 		StringBuffer date = new StringBuffer("");
 		GregorianCalendar gc = new GregorianCalendar();
-		int year = randBetween(1900, 2014);
+		int year = randBetween(1900, 2000);
 		gc.set(gc.YEAR, year);
 		int dayOfYear = randBetween(1, gc.getActualMaximum(gc.DAY_OF_YEAR));
 		gc.set(gc.DAY_OF_YEAR, dayOfYear);
-		date.append(gc.get(gc.YEAR) + "/" + gc.get(gc.MONTH) + "/" + gc.get(gc.DAY_OF_MONTH));
+		Integer month = new Integer(gc.get(gc.MONTH) + 1);
+		date.append(gc.get(gc.YEAR) + "/" + month.toString() + "/" + gc.get(gc.DAY_OF_MONTH));
 		return date.toString();
 	}
 
@@ -272,7 +273,7 @@ public class GenerateData {
 	 */
 	public static void main(String[] args) {	
 		
-		int noofrecords = 3;
+		int noofrecords = 10;
 		String insertquery,samplevalue;
 		try {
 
@@ -385,11 +386,7 @@ public class GenerateData {
 								samplevalue += "'" + allforeignkeyvalues[c] + "',"; 
 							}
 						}
-						
-						if(i == 3)
-						{
-							System.out.println("Insert query is "+insertquery);
-						}
+												
 
 						for(int k=index;k<allattributes.length;k++)
 						{
@@ -401,11 +398,7 @@ public class GenerateData {
 								if(attributedetails[1].equalsIgnoreCase("integer"))
 								{
 									int intval = Integer.parseInt(val);
-									insertquery += intval + ",";
-									if(i == 3)
-									{
-										System.out.println("Inside all other attributes!"+val);
-									}
+									insertquery += intval + ",";									
 									samplevalue += intval + ",";
 								}
 								else if(attributedetails[1].equalsIgnoreCase("float"))
@@ -432,7 +425,7 @@ public class GenerateData {
 						insertquery = insertquery.substring(0,insertquery.length()-1);
 						samplevalue = samplevalue.substring(0,samplevalue.length()-1);
 						insertquery += ");";
-						System.out.println(insertquery);	
+						//System.out.println(insertquery);	
 						writer.write(insertquery);
 						writer.write("\n");
 						writer1.write(samplevalue);
